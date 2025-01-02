@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop Video Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .upload-box {
+            border: 2px dashed #007BFF;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            color: #007BFF;
+        }
+        .upload-box.dragover {
+            background-color: #f0f8ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload a Video</h1>
+    <form id="upload-form" action="https://video-upload-server-nx8o.onrender.com" method="post" enctype="multipart/form-data">
+        <div id="upload-box" class="upload-box">
+            Drag & Drop Video Here or Click to Upload
+        </div>
+        <input type="file" id="video" name="video" accept="video/*" style="display: none;">
+        <br><br>
+        <button type="submit">Upload Video</button>
+    </form>
+
+    <script>
+        const uploadBox = document.getElementById('upload-box');
+        const fileInput = document.getElementById('video');
+
+        uploadBox.addEventListener('click', () => fileInput.click());
+
+        uploadBox.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadBox.classList.add('dragover');
+        });
+
+        uploadBox.addEventListener('dragleave', () => {
+            uploadBox.classList.remove('dragover');
+        });
+
+        uploadBox.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadBox.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+            }
+        });
+    </script>
+</body>
+</html>
